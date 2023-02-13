@@ -1,2 +1,2 @@
 #!/bin/bash
-vi 12-newest_files
+ls -t | head
