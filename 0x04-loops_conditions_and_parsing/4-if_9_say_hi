@@ -1,0 +1,14 @@
+#!/usr/bin/env bash
+# a script to display the string  "Best School" 10 times and Hi on 9th iteration
+
+start=0
+
+while [ $start -lt 10 ]
+do
+  if [ $start -eq 9 ]
+  then
+    echo "Hi"
+  fi
+  echo "Best School"
+  (( start++ ))
+done
