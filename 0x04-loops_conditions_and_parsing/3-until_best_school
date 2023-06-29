@@ -1,0 +1,9 @@
+#!/usr/bin/env bash
+# a script to display the string "Best School" 10 times using until loop
+
+st=0
+until [[ $st -eq 10 ]]
+do
+	echo "Best School"
+	st=$((st + 1))
+done
