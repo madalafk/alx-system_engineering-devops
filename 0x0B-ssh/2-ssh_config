@@ -1,5 +1,10 @@
+#!/usr/bin/env bash
 # ssh config file
 
-IdentityFile ~/.ssh/school
-PasswordAuthentication no
-PubkeyAuthentication yes
+Host *
+      PasswordAuthentication no
+      IdentifyFile ~/.ssh/school
+      sendEnv LANG LC_*
+      HashKnownHosts yes
+      GSSAPIAAuthentication yes
+      GSSAPIDelegateCredentials no
