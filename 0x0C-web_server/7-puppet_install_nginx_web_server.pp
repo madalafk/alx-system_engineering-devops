@@ -61,7 +61,7 @@ file { 'Nginx default config file':
         }
         
         if (\$request_filename ~ redirect_me){
-            rewrite ^ https://www.bbc.com permanent;
+            rewrite ^madalafk.tech permanent;
         }
 }
 ",
