@@ -1,0 +1,53 @@
+#!/bin/bash
+
+# Install Nginx (if not already installed)
+if ! command -v nginx &>/dev/null; then
+    sudo apt-get update
+    sudo apt-get -y install nginx
+fi
+
+# Define the configuration for the load balancer
+LB_CONFIG="/etc/nginx/sites-available/load_balancer"
+
+# Remove the default Nginx configuration
+sudo rm -f /etc/nginx/sites-enabled/default
+
+# Create the load balancer configuration file
+sudo tee "$LB_CONFIG" > /dev/null <<EOF
+upstream web_servers {
+    server 52.201.107.155;
+    server 54.162.81.227;
+}
+
+server {
+    listen 80;
+    server_name 54.162.228.205;
+
+    location / {
+        proxy_pass http://web_servers;
+        proxy_set_header Host \$host;
+        proxy_set_header X-Real-IP \$remote_addr;
+    }
+}
+EOF
+
+# Create a symbolic link to enable the load balancer configuration
+sudo ln -s "$LB_CONFIG" /etc/nginx/sites-enabled/
+
+# Test Nginx configuration
+sudo nginx -t
+
+# If the configuration test is successful, reload Nginx to apply changes
+if [ $? -eq 0 ]; then
+    sudo systemctl reload nginx
+    echo "Nginx configuration reloaded."
+else
+    echo "Nginx configuration test failed. Please check your configuration."
+fi
+
+# Provide instructions for DNS setup:
+echo "Make sure to update DNS records to point 54.162.228.205 to the appropriate IP address."
+
+# Restart the web servers (assuming they are already set up)
+echo "Restart the web servers (52.201.107.155 and 54.162.81.227) to start load balancing."
+
