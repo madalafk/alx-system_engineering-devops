@@ -43,7 +43,7 @@ file { 'Nginx server config file':
 		try_files \$uri \$uri/ =404;
 	}
 	if (\$request_filename ~ redirect_me){
-		rewrite ^ https://github.com/Shedriq permanent;
+		rewrite ^ https://www.bbc.com permanent;
 	}
 	error_page 404 /404.html;
 	location = /404.html {
