@@ -68,6 +68,34 @@ Knowledge Sharing:
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 1. Make people want to read your postmortem
 
 
