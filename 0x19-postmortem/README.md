@@ -1,4 +1,7 @@
 0x19. Postmortem
+
+0. My first postmortem
+
 This postmortem describes an assumption issue and its resolution for the 0x19. Postmortem project, created for ALX SWE students practice
 
 Issue Summary:
@@ -59,4 +62,69 @@ Automated Alerts:
 
 Knowledge Sharing: 
 -	We will share the lessons learned with the entire development and operations teams to improve collective knowledge about performance optimization. Run `puppet apply` for consistent server configuration checks.
+
+
+
+
+
+
+1. Make people want to read your postmortem
+
+
+
+When the Database tries to be the boss for the day
+
+
+Dramatic Data Dilemma
+Like In the world of web operations, even the Great Christopher Columbus, sometimes had to be hit by turbulent waters
+
+Issue Summary
+Duration
+The outage played hide and seek from 8:00 AM to 4:30 PM (GMT +2), When It clearly needed some "no shared-time."
+Impact
+On a Very_hot clear sky – day, Our primary web application decided to take a very hot  coffee break, causing a stir among users. Approximately 90% of our users were affected, making our hearts beating with a thunder sound
+
+Root Cause
+It turns out that a database was day-dreaming , leading to a performance nosedive. 
+
+Timeline
+Issue Detected: The Grand Auto, outage made its grand entrance at 8:05 AM through automated monitoring alerts, setting the stage for an unforgettable performance. A PID (Process ID) with an appetite for trouble signaled the start of the show.
+Actions Taken
+Our fearless IT support, team, equipped with a 'curl' of determination, initiated an investigation. But no matter how much 'curl' was involved, it wasn't enough to untangle this web.
+Misleading Investigation
+ Our commandos, explored the server load and network traffic, believing that they'd find a server party in full swing. To our surprise, the servers were on their best behavior. We even 'strace'd the situation, but it was like watching a mime on mute - fascinating but uninformative.
+Escalation:
+When the script ran out of jokes, that’s when our snipers prepared for a head shot . They dug deep into the code, suspecting a software bug, while our server config did a 'puppet apply' to check its makeup.
+Issue Resolution
+Like a USA special force commando, the developers uncovered the real joker of the story: an inefficient database query stealing the spotlight. The query was swiftly given a rewrite, and an index was placed to speed up its performance. A standing ovation from our users ensued.
+
+Root Cause and Resolution
+Root Cause
+ The database query, failing to land any laughs, had grown inefficient as our dataset expanded, it was like a Bluetooth device which was connected to so many devices in which all the devises wanted to function at the same time, leaving the Bluetooth device in dilemma on which operation was to be priotised 
+
+Resolution
+The developers restructured the query and added an index, transforming the query from a comedy flop disk into a high performance gaming SSD.
+
+Corrective and Preventative Measures
+By employing Improvements/Fixes ,Database Query Reviews and Regular reviews and optimizations to keep queries in fit 
+Automated Alerts by a Monitoring that's more sensitive to Vodka like James Bond.
+Load Testing , made us all aware that servers should always practice their lines more often.
+
+Tasks to Address the Issue:
+ Database Query Review
+As IT marines, we should Make sure our queries aren't writing bad jokes.
+ Automated Alerts in such a way that all things are safely set like nuclear bombs with no room for  errors
+
+
+
+
+
+
+
+
+
+
+
+
+
 
