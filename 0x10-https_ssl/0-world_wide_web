@@ -1,16 +1,20 @@
 #!/usr/bin/env bash
-# Configure your domain zone so that the subdomain www points to your load-balancer IP (lb-01)
+"""
+displays information about the subdomains of a domain
+"""
 
-print_info () {
-    dig "$1" | grep -A1 'ANSWER SECTION:' | sed -r "s/$1./$2/g" | awk -F" " ' NR==2 { print "The subdomain " $1 " is a " $4 " record and points to " $5 }'
-}
-
-if [ "$#" -eq 2 ]
+if [ "$#" -lt 1 ]
 then
-    print_info "$2.$1" "$2"
+    echo "Domain name is missing"
+elif [ "$#" -eq 1 ]
+then
+    sub_domains=("www" "lb-01" "web-01" "web-02")
+    for i in "${sub_domains[@]}"
+    do
+        dig "$i"."$1" | grep -A1 'ANSWER SECTION:' \
+        | awk 'FNR == 2 {printf "The subdomain %s is a %s record and points to %s\n", var, $4, $5}' var="$i"
+    done
 else
-    print_info "www.$1" "www"
-    print_info "lb-01.$1" "lb-01"
-    print_info "web-01.$1" "web-01"
-    print_info "web-02.$1" "web-02"
+    dig "$2"."$1" | grep -A1 'ANSWER SECTION:' \
+    | awk 'FNR == 2 {printf "The subdomain %s is a %s record and points to %s\n", var, $4, $5}' var="$2"
 fi
