@@ -1,8 +1,13 @@
 #!/usr/bin/env bash
 # install load balance for web-01 and web-02
 
-apt-get -y update
-sudo apt-get install haproxy #install haproxy
+sudo apt-get -y update
+sudo apt-get install -y haproxy
+
+# Add HAProxy PPA
+sudo apt-get -y install software-properties-common
+sudo add-apt-repository -y ppa:vbernat/haproxy
+sudo apt-get -y update
 
 # backup default server config file
 sudo cp /etc/haproxy/haproxy.cfg haproxy_default.backup
@@ -24,9 +29,7 @@ backend allservers
    server 453-web-02 54.237.113.234:80 check
 "
 
-sudo chown haproxy:haproxy /etc/haproxy/haproxy.cfg
-sudo chmod 600 /etc/haproxy/haproxy.cfg
+echo "$server_config" | sudo tee /etc/haproxy/haproxy.cfg > /dev/null
 
 sudo service haproxy restart
-
 
