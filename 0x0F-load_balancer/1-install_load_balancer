@@ -24,8 +24,8 @@ backend allservers
    server 453-web-02 54.237.113.234:80 check
 "
 
-chown haproxy:haproxy /etc/haproxy/haproxy.cfg
-chmod 600 /etc/haproxy/haproxy.cfg
+sudo chown haproxy:haproxy /etc/haproxy/haproxy.cfg
+sudo chmod 600 /etc/haproxy/haproxy.cfg
 
 sudo service haproxy restart
 
