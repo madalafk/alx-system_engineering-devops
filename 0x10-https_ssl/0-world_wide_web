@@ -1,16 +1,38 @@
 #!/usr/bin/env bash
-# print domains and subdomains
+# Script that displays information about subdomains.
+# Domains and subdomains are passed as arguments to the script.
 
-print_domain_subdomain () {
-    dig "$1" | grep -A1 'ANSWER SECTION:' | sed -r "s/$1./$2/g" | awk -F" " ' NR==2 { print "The subdomain " $1 " is a " $4 " record and points to " $5 }'
+findRecords() {
+    local domain="$1"
+    local subdomain="$2"
+
+    # Check if subdomain is not provided
+    if [ -z "$subdomain" ]; then
+        subdomain="www"
+    fi
+
+    # Use dig only once and store the result in a variable
+    result=$(dig "${subdomain}.${domain}")
+
+    # Extract relevant information using awk
+    r_type=$(echo "$result" | awk '/^;; ANSWER SECTION:$/ { getline; print $4 }')
+    ip_add=$(echo "$result" | awk '/^;; ANSWER SECTION:$/ { getline; print $5 }')
+
+    # Check if valid records are found
+    if [ -n "$r_type" ] && [ -n "$ip_add" ]; then
+        echo "The subdomain ${subdomain} is a ${r_type} record and points to ${ip_add}"
+    else
+        echo "No valid records found for the subdomain ${subdomain}"
+    fi
 }
 
-if [ "$#" -eq 2 ]
-then
-    print_domain_subdomain "$2.$1" "$2"
-else
-    print_domain_subdomain "www.$1" "www"
-    print_domain_subdomain "lb-01.$1" "lb-01"
-    print_domain_subdomain "web-01.$1" "web-01"
-    print_domain_subdomain "web-02.$1" "web-02"
+if [ "$#" -lt 1 ] || [ "$#" -gt 2 ]; then
+    echo "Usage: $0 <domain> [subdomain]"
+    exit 1
 fi
+
+domain="$1"
+subdomain="$2"
+
+findRecords "$domain" "$subdomain"
+
